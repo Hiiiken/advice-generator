@@ -6,29 +6,13 @@
 </template>
 
 <style lang="scss">
-// #app {
-//   font-family: Avenir, Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   text-align: center;
-//   color: #2c3e50;
-// }
+  body {
+    background-color: hsl(218, 23%, 16%);
+    font-family: 'Manrope';
+  }
 
-// #nav {
-//   padding: 30px;
-
-//   a {
-//     font-weight: bold;
-//     color: #2c3e50;
-
-//     &.router-link-exact-active {
-//       color: #42b983;
-//     }
-//   }
-// }
-
-body {
-  background-color: hsl(218, 23%, 16%);
-}
-
+  h1, p, h4 {
+    padding: 0;
+    margin: 0;
+  }
 </style>
