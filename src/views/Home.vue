@@ -2,8 +2,9 @@
   <div class="advice">
     <h4 class="advice-nbr">Advice #117</h4>
     <p class="advice-text">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-      Cumque voluptatibus.
+      <!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+      Cumque voluptatibus. -->
+      {{ advices.advice }}
     </p>
     <span class="divider">
       <i class="fa-solid fa-grip-lines-vertical"></i>
@@ -12,20 +13,37 @@
       <i class="fa-solid fa-dice-five"></i>
     </button>
   </div>
+
+  <section v-if="errored">
+    <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+  </section>
 </template>
 
 <script>
-
 export default {
   name: 'Home',
-  
+  data() {
+    return {
+      advices: null,
+      errored: false,
+    }
+  },
+  mounted() {
+    axios
+      .get('https://api.adviceslip.com/advice')
+      .then(response => (this.advices = response.data.slip))
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+  },
 }
 </script>
 
 <style lang="scss">
   .advice {
     background-color: hsl(217, 19%, 24%);
-    width: 600px;
+    max-width: 600px;
     position: absolute;
     top: 50%;
     left: 50%;
