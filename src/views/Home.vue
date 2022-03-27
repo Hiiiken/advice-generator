@@ -1,6 +1,6 @@
 <template>
   <div class="advice">
-    <h4 class="advice-nbr">Advice #117</h4>
+    <h4 class="advice-nbr">Advice {{ advices.id }}</h4>
     <div class="advice-text">
       
       <section v-if="errored">
