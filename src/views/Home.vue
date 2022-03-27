@@ -1,22 +1,30 @@
 <template>
   <div class="advice">
     <h4 class="advice-nbr">Advice #117</h4>
-    <p class="advice-text">
-      <!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-      Cumque voluptatibus. -->
-      {{ advices.advice }}
-    </p>
+    <div class="advice-text">
+      
+      <section v-if="errored">
+        <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+      </section>
+      
+      <section v-else>
+        <p v-if="loading">Loading...</p>
+        <p v-else>
+          {{ advices.advice }}
+        </p>
+      </section>
+    </div>
+    
     <span class="divider">
       <i class="fa-solid fa-grip-lines-vertical"></i>
     </span>
-    <button class="dice-btn">
+    
+    <button class="dice-btn" @click="loadAdvice()">
       <i class="fa-solid fa-dice-five"></i>
     </button>
   </div>
 
-  <section v-if="errored">
-    <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
-  </section>
+  
 </template>
 
 <script>
@@ -24,26 +32,37 @@ export default {
   name: 'Home',
   data() {
     return {
-      advices: null,
+      advices: '',
+      loading: true,
       errored: false,
     }
   },
-  mounted() {
-    axios
+  beforeMount() {
+    this.loadAdvice()
+  },
+  methods: {
+    // reloadPage() {
+    //   window.location.reload();
+    // },
+    loadAdvice() {
+      axios
       .get('https://api.adviceslip.com/advice')
       .then(response => (this.advices = response.data.slip))
       .catch(error => {
         console.log(error)
         this.errored = true
       })
-  },
+      .finally(() => this.loading = false)
+    }
+  }
 }
 </script>
 
 <style lang="scss">
   .advice {
     background-color: hsl(217, 19%, 24%);
-    max-width: 600px;
+    width: 600px;
+    max-width: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -103,10 +122,23 @@ export default {
       bottom: -24px;
       left: 50%;
       transform: translateX(-50%);
+      transition: .5s all ease-in-out;
 
       i {
         font-size: 24px;
         color: hsl(218, 23%, 16%);
+      }
+
+      @keyframes mymove {
+        50% {transform: rotate(180deg);}
+      }
+
+      &:hover {
+        background-color: hsl(193, 38%, 86%);
+        
+        i {
+          animation: mymove .5s;
+        }
       }
     }
   }
