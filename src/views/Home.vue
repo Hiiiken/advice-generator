@@ -2,7 +2,6 @@
   <div class="advice">
     <h4 class="advice-nbr">Advice {{ advices.id }}</h4>
     <div class="advice-text">
-      
       <section v-if="errored">
         <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
       </section>
@@ -13,6 +12,15 @@
           {{ advices.advice }}
         </p>
       </section>
+    </div>
+
+    <div class="controls-btn">
+      <button class="prev-btn">
+        <i class="fa-solid fa-left-long"></i>
+      </button>
+      <button class="next-btn">
+        <i class="fa-solid fa-right-long"></i>
+      </button>
     </div>
     
     <span class="divider">
@@ -61,7 +69,7 @@ export default {
 <style lang="scss">
   .advice {
     background-color: hsl(217, 19%, 24%);
-    width: 600px;
+    width: 700px;
     max-width: 100%;
     position: absolute;
     top: 50%;
@@ -86,6 +94,7 @@ export default {
       font-size: 24px;
       line-height: 1.4em;
       margin-bottom: 40px;
+      padding: 0 30px;
     }
 
     .divider {
@@ -106,6 +115,56 @@ export default {
         padding: 0 10px;
         color: hsl(193, 38%, 86%);
         font-size: 24px;
+      }
+    }
+
+    .controls-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .prev-btn {
+      margin-left: 34px;
+      background: transparent;
+      outline: none;
+      border: none;
+      cursor: pointer;
+
+      i {
+        font-size: 20px;
+        color: hsl(217, 19%, 38%);
+        transition: .5s all ease-in-out;
+      }
+
+      &:hover {
+        i {
+          color: hsl(150, 100%, 66%);;
+        }
+      }
+    }
+
+    .next-btn {
+      margin-right: 34px;
+      background: transparent;
+      outline: none;
+      border: none;
+      cursor: pointer;
+
+      i {
+        font-size: 20px;
+        color: hsl(217, 19%, 38%);
+        transition: .5s all ease-in-out;
+      }
+
+      &:hover {
+        i {
+          color: hsl(150, 100%, 66%);;
+        }
       }
     }
 
