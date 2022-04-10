@@ -1,6 +1,6 @@
 <template>
   <div class="advice">
-    <h4 class="advice-nbr">Advice {{ advices.id }}</h4>
+    <h4 class="advice-nbr">Advice {{ test.id }}</h4>
     <div class="advice-text">
       <section v-if="errored">
         <p>
@@ -20,7 +20,7 @@
             </span>
           </template> -->
 
-          {{ test }}
+          {{ test.text }}
         </p>
       </section>
     </div>
@@ -53,13 +53,13 @@ export default {
       loading: true,
       errored: false,
       test: '',
-      myArray: [],
-      // myArray: [
-      //   {
-      //     id: '',
-      //     text: ''
-      //   }
-      // ],
+      // myArray: [],
+      myArray: [
+        {
+          id: '',
+          text: ''
+        }
+      ],
       
     }
   },
@@ -74,8 +74,8 @@ export default {
         (this.advices = response.data.slip)
         // console.log(response.data.slip)
 
-        // this.myArray.push({id: this.advices.id, text: this.advices.advice})
-        this.myArray.push(this.advices.advice)
+        this.myArray.push({id: this.advices.id, text: this.advices.advice})
+        // this.myArray.push(this.advices.advice)
         console.log(this.myArray)
         this.test = this.myArray[this.myArray.length - 1]
         
