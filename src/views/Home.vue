@@ -3,22 +3,33 @@
     <h4 class="advice-nbr">Advice {{ advices.id }}</h4>
     <div class="advice-text">
       <section v-if="errored">
-        <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+        <p>
+          We're sorry, we're not able to retrieve this information 
+          at the moment, please try back later
+        </p>
       </section>
       
       <section v-else>
         <p v-if="loading">Loading...</p>
         <p v-else>
-          {{ advices.advice }}
+          <!-- {{ advices.advice }} -->
+
+          <!-- <template v-for="(item, index) in myArray" :key="item.id">
+            <span v-if="index === myArray.length - 1">
+              {{ item }}
+            </span>
+          </template> -->
+
+          {{ test }}
         </p>
       </section>
     </div>
 
     <div class="controls-btn">
-      <button class="prev-btn">
+      <button class="prev-btn" @click="prevAdvice()">
         <i class="fa-solid fa-left-long"></i>
       </button>
-      <button class="next-btn">
+      <button class="next-btn" @click="nextAdvice()">
         <i class="fa-solid fa-right-long"></i>
       </button>
     </div>
@@ -31,8 +42,6 @@
       <i class="fa-solid fa-dice-five"></i>
     </button>
   </div>
-
-  
 </template>
 
 <script>
@@ -43,24 +52,49 @@ export default {
       advices: '',
       loading: true,
       errored: false,
+      test: '',
+      myArray: [],
+      // myArray: [
+      //   {
+      //     id: '',
+      //     text: ''
+      //   }
+      // ],
+      
     }
   },
   beforeMount() {
     this.loadAdvice()
   },
   methods: {
-    // reloadPage() {
-    //   window.location.reload();
-    // },
     loadAdvice() {
       axios
       .get('https://api.adviceslip.com/advice')
-      .then(response => (this.advices = response.data.slip))
+      .then(response => {
+        (this.advices = response.data.slip)
+        // console.log(response.data.slip)
+
+        // this.myArray.push({id: this.advices.id, text: this.advices.advice})
+        this.myArray.push(this.advices.advice)
+        console.log(this.myArray)
+        this.test = this.myArray[this.myArray.length - 1]
+        
+      })
       .catch(error => {
         console.log(error)
         this.errored = true
       })
       .finally(() => this.loading = false)
+    },
+    prevAdvice() {
+      let indx = this.myArray.indexOf(this.test)
+      let value = this.myArray[indx - 1]
+      this.test = value
+    },
+    nextAdvice() {
+      let indx = this.myArray.indexOf(this.test)
+      let value = this.myArray[indx + 1]
+      this.test = value
     }
   }
 }
