@@ -18,10 +18,10 @@
     </div>
 
     <div class="controls-btn">
-      <button class="prev-btn" @click="prevAdvice()" :disabled="isHiddenPrev">
+      <button class="prev-btn" @click="prevAdvice()" :disabled="isDisabledPrev">
         <i class="fa-solid fa-left-long"></i>
       </button>
-      <button class="next-btn" @click="nextAdvice()" :disabled="isHiddenNext">
+      <button class="next-btn" @click="nextAdvice()" :disabled="isDisabledNext">
         <i class="fa-solid fa-right-long"></i>
       </button>
     </div>
@@ -45,8 +45,8 @@ export default {
       loading: true,
       errored: false,
       singleAdvice: '',
-      isHiddenNext: false,
-      isHiddenPrev: false,
+      isDisabledNext: false,
+      isDisabledPrev: false,
       
       myArray: [
         {
@@ -70,11 +70,11 @@ export default {
         this.myArray.push({id: this.advices.id, text: this.advices.advice})
         this.singleAdvice = this.myArray[this.myArray.length - 1]
 
-        this.isHiddenNext = true
+        this.isDisabledNext = true
         if( this.myArray.length <= 2 ) {
-          this.isHiddenPrev = true
+          this.isDisabledPrev = true
         } else {
-          this.isHiddenPrev = false
+          this.isDisabledPrev = false
         }
       })
       .catch(error => {
@@ -89,12 +89,12 @@ export default {
       this.singleAdvice = value
 
       if ( indx - 1 === 1 ) {
-        this.isHiddenPrev = true
+        this.isDisabledPrev = true
       }
       
       let lastItem = this.myArray[this.myArray.length - 1]
       if ( indx + 1 !== this.myArray.indexOf(lastItem) ) {
-        this.isHiddenNext = false
+        this.isDisabledNext = false
       }
     },
     nextAdvice() {
@@ -104,11 +104,11 @@ export default {
       
       let lastItem = this.myArray[this.myArray.length - 1]
       if ( indx + 1 === this.myArray.indexOf(lastItem) ) {
-        this.isHiddenNext = true
+        this.isDisabledNext = true
       }
 
       if ( indx - 1 !== 1 ) {
-        this.isHiddenPrev = false
+        this.isDisabledPrev = false
       }
     }
   }
