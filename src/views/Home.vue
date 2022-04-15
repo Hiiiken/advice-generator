@@ -1,6 +1,5 @@
 <template>
   <div class="advice">
-    <!-- <h4 class="advice-nbr">Advice {{ test.id }}</h4> -->
     <div class="advice-text">
       <section v-if="errored">
         <p>
@@ -13,14 +12,7 @@
         <p v-if="loading">Loading...</p>
         <p v-else>
           <!-- {{ advices.advice }} -->
-
-          <!-- <template v-for="(item, index) in myArray" :key="item.id">
-            <span v-if="index === myArray.length - 1">
-              {{ item }}
-            </span>
-          </template> -->
-
-          {{ test.text }}
+          {{ singleAdvice.text }}
         </p>
       </section>
     </div>
@@ -52,7 +44,7 @@ export default {
       advices: '',
       loading: true,
       errored: false,
-      test: '',
+      singleAdvice: '',
       isHiddenNext: false,
       isHiddenPrev: false,
       
@@ -74,23 +66,16 @@ export default {
       .get('https://api.adviceslip.com/advice')
       .then(response => {
         (this.advices = response.data.slip)
-        // console.log(response.data.slip)
 
         this.myArray.push({id: this.advices.id, text: this.advices.advice})
-        // this.myArray.push(this.advices.advice)
-        console.log(this.myArray)
-        this.test = this.myArray[this.myArray.length - 1]
+        this.singleAdvice = this.myArray[this.myArray.length - 1]
 
+        this.isHiddenNext = true
         if( this.myArray.length <= 2 ) {
-          this.isHiddenNext = true
           this.isHiddenPrev = true
         } else {
-          this.isHiddenNext = false
           this.isHiddenPrev = false
         }
-
-        
-        
       })
       .catch(error => {
         console.log(error)
@@ -99,11 +84,9 @@ export default {
       .finally(() => this.loading = false)
     },
     prevAdvice() {
-      let indx = this.myArray.indexOf(this.test)
+      let indx = this.myArray.indexOf(this.singleAdvice)
       let value = this.myArray[indx - 1]
-      this.test = value
-
-      // console.log(indx)
+      this.singleAdvice = value
 
       if ( indx - 1 === 1 ) {
         this.isHiddenPrev = true
@@ -115,9 +98,9 @@ export default {
       }
     },
     nextAdvice() {
-      let indx = this.myArray.indexOf(this.test)
+      let indx = this.myArray.indexOf(this.singleAdvice)
       let value = this.myArray[indx + 1]
-      this.test = value
+      this.singleAdvice = value
       
       let lastItem = this.myArray[this.myArray.length - 1]
       if ( indx + 1 === this.myArray.indexOf(lastItem) ) {
@@ -205,7 +188,7 @@ export default {
       i {
         font-size: 20px;
         color: hsl(150, 100%, 66%);
-        transition: .5s all ease-in-out;
+        transition: .3s all ease-in-out;
       }
 
       &:hover {
@@ -233,7 +216,7 @@ export default {
       i {
         font-size: 20px;
         color: hsl(150, 100%, 66%);
-        transition: .5s all ease-in-out;
+        transition: .3s all ease-in-out;
       }
 
       &:hover {
