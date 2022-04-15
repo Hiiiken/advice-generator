@@ -15,7 +15,7 @@ Users should be able to:
 
 - I added pagination functionality to the app to allow the user to move between Next/Previous advices
 - The buttons are disabled by default until more advices are generated
-- When reaching the last or first adive, the next or previous button becomes disabled to indicate that
+- When reaching the last or first advice, the next or previous button becomes disabled to indicate that
 
 ### Links
 
