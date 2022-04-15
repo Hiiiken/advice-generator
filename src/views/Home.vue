@@ -1,6 +1,6 @@
 <template>
   <div class="advice">
-    <h4 class="advice-nbr">Advice {{ test.id }}</h4>
+    <!-- <h4 class="advice-nbr">Advice {{ test.id }}</h4> -->
     <div class="advice-text">
       <section v-if="errored">
         <p>
@@ -26,10 +26,10 @@
     </div>
 
     <div class="controls-btn">
-      <button class="prev-btn" @click="prevAdvice()">
+      <button class="prev-btn" @click="prevAdvice()" :disabled="isHiddenPrev">
         <i class="fa-solid fa-left-long"></i>
       </button>
-      <button class="next-btn" @click="nextAdvice()">
+      <button class="next-btn" @click="nextAdvice()" :disabled="isHiddenNext">
         <i class="fa-solid fa-right-long"></i>
       </button>
     </div>
@@ -53,10 +53,12 @@ export default {
       loading: true,
       errored: false,
       test: '',
-      // myArray: [],
+      isHiddenNext: false,
+      isHiddenPrev: false,
+      
       myArray: [
         {
-          id: '',
+          id: null,
           text: ''
         }
       ],
@@ -78,6 +80,16 @@ export default {
         // this.myArray.push(this.advices.advice)
         console.log(this.myArray)
         this.test = this.myArray[this.myArray.length - 1]
+
+        if( this.myArray.length <= 2 ) {
+          this.isHiddenNext = true
+          this.isHiddenPrev = true
+        } else {
+          this.isHiddenNext = false
+          this.isHiddenPrev = false
+        }
+
+        
         
       })
       .catch(error => {
@@ -90,11 +102,31 @@ export default {
       let indx = this.myArray.indexOf(this.test)
       let value = this.myArray[indx - 1]
       this.test = value
+
+      // console.log(indx)
+
+      if ( indx - 1 === 1 ) {
+        this.isHiddenPrev = true
+      }
+      
+      let lastItem = this.myArray[this.myArray.length - 1]
+      if ( indx + 1 !== this.myArray.indexOf(lastItem) ) {
+        this.isHiddenNext = false
+      }
     },
     nextAdvice() {
       let indx = this.myArray.indexOf(this.test)
       let value = this.myArray[indx + 1]
       this.test = value
+      
+      let lastItem = this.myArray[this.myArray.length - 1]
+      if ( indx + 1 === this.myArray.indexOf(lastItem) ) {
+        this.isHiddenNext = true
+      }
+
+      if ( indx - 1 !== 1 ) {
+        this.isHiddenPrev = false
+      }
     }
   }
 }
@@ -160,6 +192,7 @@ export default {
       width: 100%;
       display: flex;
       justify-content: space-between;
+      padding-bottom: 20px;
     }
 
     .prev-btn {
@@ -171,13 +204,21 @@ export default {
 
       i {
         font-size: 20px;
-        color: hsl(217, 19%, 38%);
+        color: hsl(150, 100%, 66%);
         transition: .5s all ease-in-out;
       }
 
       &:hover {
         i {
-          color: hsl(150, 100%, 66%);;
+          color: hsl(193, 38%, 86%);
+        }
+      }
+
+      &:disabled {
+        cursor: default;
+
+        i {
+          color: hsl(217, 19%, 38%);
         }
       }
     }
@@ -191,13 +232,21 @@ export default {
 
       i {
         font-size: 20px;
-        color: hsl(217, 19%, 38%);
+        color: hsl(150, 100%, 66%);
         transition: .5s all ease-in-out;
       }
 
       &:hover {
         i {
-          color: hsl(150, 100%, 66%);;
+          color: hsl(193, 38%, 86%);
+        }
+      }
+
+      &:disabled {
+        cursor: default;
+        
+        i {
+          color: hsl(217, 19%, 38%);
         }
       }
     }
